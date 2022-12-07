@@ -39,7 +39,7 @@ class DBStorage:
         All objects depending of the class name (argument cls).
         """
         # models = [User, State, City, Amenity, Place, Review]
-        models = [State, City, User]
+        models = [State, City, User, Place]
         obj_dict = {}
         if not cls:
             for cls in models:
