@@ -3,16 +3,18 @@
 import uuid
 from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, String, Integer, TIMESTAMP
-from sqlalchemy.sql.expression import delete
+from sqlalchemy import Column, String, TIMESTAMP
 
 Base = declarative_base()
 
+
 class BaseModel:
     """A base class for all hbnb models"""
+
     id = Column(String(60), primary_key=True)
     created_at = Column(TIMESTAMP(), nullable=False, default=datetime.utcnow())
     updated_at = Column(TIMESTAMP(), nullable=False, default=datetime.utcnow())
+
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
         if not kwargs:
@@ -20,9 +22,20 @@ class BaseModel:
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
         else:
-            self.id = str(uuid.uuid4())
-            self.created_at = datetime.now()
-            self.updated_at = datetime.now()
+
+            if 'created_at' in kwargs:
+                del kwargs['__class__']
+                ctd_at = kwargs['created_at']
+                kwargs['created_at'] = datetime.strptime(
+                        ctd_at, '%Y-%m-%dT%H:%M:%S.%f')
+                upd_at = kwargs['updated_at']
+                kwargs['updated_at'] = datetime.strptime(
+                        upd_at, '%Y-%m-%dT%H:%M:%S.%f')
+            else:
+                self.id = str(uuid.uuid4())
+                self.created_at = datetime.now()
+                self.updated_at = datetime.now()
+
             for k in kwargs:
                 setattr(self, k, kwargs[k])
 

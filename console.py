@@ -16,7 +16,7 @@ class HBNBCommand(cmd.Cmd):
     """ Contains the functionality for the HBNB console"""
 
     # determines prompt for interactive/non-interactive modes
-    prompt = '(hbnb) ' if sys.__stdin__.isatty() else ''
+    prompt = '(hbnb) '
 
     classes = {
                'BaseModel': BaseModel, 'User': User, 'Place': Place,
@@ -29,11 +29,6 @@ class HBNBCommand(cmd.Cmd):
              'max_guest': int, 'price_by_night': int,
              'latitude': float, 'longitude': float
             }
-
-    def preloop(self):
-        """Prints if isatty is false"""
-        if not sys.__stdin__.isatty():
-            print('(hbnb)')
 
     def parse_cmd(self, line):
         """Reformat command line for advanced command syntax.
@@ -85,7 +80,7 @@ class HBNBCommand(cmd.Cmd):
             pass
         finally:
             return line
-    
+
     def default(self, line: str) -> None:
         """Find the right cmd and execute it."""
         cmd = {
@@ -104,15 +99,9 @@ class HBNBCommand(cmd.Cmd):
         else:
             return super().default(line)
 
-    def postcmd(self, stop, line):
-        """Prints if isatty is false"""
-        if not sys.__stdin__.isatty():
-            print('(hbnb) ', end='')
-        return stop
-
     def do_quit(self, command):
         """ Method to exit the HBNB console"""
-        return True;
+        return True
 
     def help_quit(self):
         """ Prints the help documentation for quit  """
@@ -132,19 +121,25 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         """ Create an object of any class"""
-        model, *arg = args.split()
-        args = {}
-        for v in arg:
-            k = v[:v.find('=')]
-            val = v[v.find('=') + 1:].replace('"', '').replace('_', ' ')
-            args[k] = val
+        try:
+            model, *arg = args.split()
+            args = {}
+            for v in arg:
+                k = v[:v.find('=')]
+                val = v[v.find('=') + 1:].replace('"', '').replace('_', ' ')
+                args[k] = val
+        except Exception:
+            model = args
         if not model:
             print("** class name missing **")
             return
         elif model not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        new_instance = HBNBCommand.classes[model](**args)
+        if type(args) is dict:
+            new_instance = HBNBCommand.classes[model](**args)
+        else:
+            new_instance = HBNBCommand.classes[model]()
         new_instance.save()
         print(new_instance.id)
 
@@ -230,7 +225,7 @@ class HBNBCommand(cmd.Cmd):
                 return
             args = HBNBCommand.classes[args]
             for _, v in storage.all(args).items():
-                    print_list.append(str(v))
+                print_list.append(str(v))
         else:
             for _, v in storage.all().items():
                 print_list.append(str(v))
@@ -245,9 +240,9 @@ class HBNBCommand(cmd.Cmd):
     def do_count(self, args):
         """Count current number of class instances"""
         count = 0
-        for k, v in storage._FileStorage__objects.items():
-            if args == k.split('.')[0]:
-                count += 1
+        args = HBNBCommand.classes[args]
+        for _, _ in storage.all(args).items():
+            count += 1
         print(count)
 
     def help_count(self):

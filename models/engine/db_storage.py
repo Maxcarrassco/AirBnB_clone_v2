@@ -12,6 +12,7 @@ from models.state import State
 from models.review import Review
 import os
 
+
 class DBStorage:
     """Implement Database related functionality for our backend."""
 
@@ -23,11 +24,12 @@ class DBStorage:
         HBNB_MYSQL_USER = os.environ.get('HBNB_MYSQL_USER')
         HBNB_MYSQL_PWD = os.environ.get('HBNB_MYSQL_PWD')
         HBNB_MYSQL_HOST = os.environ.get('HBNB_MYSQL_HOST')
-        HBNB_MYSQL_DB = os.environ.get('HBNB_MYSQL_HOST')
+        HBNB_MYSQL_DB = os.environ.get('HBNB_MYSQL_DB')
         HBNB_ENV = os.environ.get('HBNB_ENV')
 
-        #self.__engine = create_engine(f"mysql://{HBNB_MYSQL_USER}:{HBNB_MYSQL_PWD}@{HBNB_MYSQL_HOST}/{HBNB_MYSQL_DB}", pool_pre_ping=True)
-        self.__engine = create_engine("mysql://hbnb_dev:hbnb_dev_pwd@localhost/hbnb_dev_db", pool_pre_ping=True)
+        self.__engine = create_engine(f"""mysql://{HBNB_MYSQL_USER}:{
+                HBNB_MYSQL_PWD}@{HBNB_MYSQL_HOST}/{
+                HBNB_MYSQL_DB}""", pool_pre_ping=True)
         if HBNB_ENV == 'test':
             Base.metadata.drop_all(self.__engine)
 
@@ -36,7 +38,7 @@ class DBStorage:
         Query on the current database session (self.__session).
         All objects depending of the class name (argument cls).
         """
-        #models = [User, State, City, Amenity, Place, Review]
+        # models = [User, State, City, Amenity, Place, Review]
         models = [State, City]
         obj_dict = {}
         if not cls:
