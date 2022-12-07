@@ -155,11 +155,8 @@ EOF  all  count  create  destroy  help  quit  show  update
     def test_all(self):
         """Test if all return list of all instances."""
         out = []
-        for k, v in storage.all().items():
-            k = k.split('.')
-            v = v.to_dict()
-            obj = eval(f'{k[0]}(**v)')
-            out.append(str(obj))
+        for _, v in storage.all().items():
+            out.append(str(v))
 
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("all")
@@ -167,25 +164,35 @@ EOF  all  count  create  destroy  help  quit  show  update
 
     def test_all_model(self):
         """Test if all return list of all instances of a model."""
-        class_name = ['BaseModel', 'City', 'State', 'Place']
-        class_name += ['Review', 'Amenity', 'User']
+        class_name = {
+                'BaseModel': BaseModel,
+                'City': City,
+                'State': State,
+                'Place': Place,
+                'Review': Review,
+                'Amenity': Amenity,
+                'User': User
+            }
 
         for name in class_name:
             with patch('sys.stdout', new=StringIO()) as f:
                 HBNBCommand().onecmd(f"all {name}")
                 out = []
-                for k, v in storage.all().items():
-                    k = k.split('.')
-                    if name == k[0]:
-                        v = v.to_dict()
-                        obj = eval(f'{name}(**v)')
-                        out.append(str(obj))
+                for _, v in storage.all(class_name[name]).items():
+                       out.append(str(v))
                 self.assertEqual(f'{out}\n', f.getvalue())
 
     def test_update_def_models(self):
         """Test if all each model can be updated."""
-        class_name = ['BaseModel', 'City', 'State', 'Place']
-        class_name += ['Review', 'Amenity', 'User']
+        class_name = {
+                'BaseModel': BaseModel,
+                'City': City,
+                'State': State,
+                'Place': Place,
+                'Review': Review,
+                'Amenity': Amenity,
+                'User': User
+            }
 
         for name in class_name:
             with patch('sys.stdout', new=StringIO()) as f:
@@ -281,17 +288,20 @@ EOF  all  count  create  destroy  help  quit  show  update
 
     def test_def_all_model(self):
         """Test if all return list of all instances of a model."""
-        class_name = ['BaseModel', 'City', 'State', 'Place']
-        class_name += ['Review', 'Amenity', 'User']
+        class_name = {
+                'BaseModel': BaseModel,
+                'City': City,
+                'State': State,
+                'Place': Place,
+                'Review': Review,
+                'Amenity': Amenity,
+                'User': User
+            }
 
         for name in class_name:
             with patch('sys.stdout', new=StringIO()) as f:
                 HBNBCommand().onecmd(f"{name}.all()")
                 out = []
-                for k, v in storage.all().items():
-                    k = k.split('.')
-                    if k[0] == name:
-                        v = v.to_dict()
-                        obj = eval(f'{k[0]}(**v)')
-                        out.append(str(obj))
+                for _, v in storage.all(class_name[name]).items():
+                        out.append(str(v))
                 self.assertEqual(f'{out}\n', f.getvalue())
