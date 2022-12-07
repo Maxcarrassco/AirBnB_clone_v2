@@ -179,7 +179,7 @@ EOF  all  count  create  destroy  help  quit  show  update
                 HBNBCommand().onecmd(f"all {name}")
                 out = []
                 for _, v in storage.all(class_name[name]).items():
-                       out.append(str(v))
+                    out.append(str(v))
                 self.assertEqual(f'{out}\n', f.getvalue())
 
     def test_update_def_models(self):
@@ -303,5 +303,5 @@ EOF  all  count  create  destroy  help  quit  show  update
                 HBNBCommand().onecmd(f"{name}.all()")
                 out = []
                 for _, v in storage.all(class_name[name]).items():
-                        out.append(str(v))
+                    out.append(str(v))
                 self.assertEqual(f'{out}\n', f.getvalue())

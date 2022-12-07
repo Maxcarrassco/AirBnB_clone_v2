@@ -1,9 +1,19 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
+from sqlalchemy.sql.schema import Table
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, ForeignKey, Integer, Float
 from sqlalchemy.orm import relationship
 from models.review import Review
+
+
+place_amenity_table = Table(
+        "place_amenity",
+        Base.metadata,
+        Column("place_id", String(60), ForeignKey(
+            'places.id'), primary_key=True),
+        Column("amenity_id", String(60), ForeignKey(
+            'amenities.id'), primary_key=True))
 
 
 class Place(BaseModel, Base):
@@ -22,6 +32,10 @@ class Place(BaseModel, Base):
     longitude = Column(Float)
     reviews = relationship('Review', backref='place')
     amenity_ids = []
+    amenities = relationship(
+            "Amenity",
+            secondary="place_amenity",
+            viewonly=True)
 
     @property
     def reviews(self):
@@ -35,3 +49,30 @@ class Place(BaseModel, Base):
             if self.id == v.place_id:
                 objs.append(str(v))
         return objs
+
+    @property
+    def amenities(self):
+        """
+        Returns the list of Amenity instances based on the attribute.
+        Amenity_ids that contains all Amenity.id linked to the Place.
+        """
+        from models import storage
+        from models.amenity import Amenity
+
+        objs = []
+        for _, v in storage.all(Amenity).items():
+            if v.id in self.amenity_ids:
+                objs.append(str(v))
+        return objs
+
+    @amenities.setter
+    def amenities(self, obj):
+        """
+        Add an Amenity.id to the attribute amenity_ids.
+        Only Amenity object, otherwise, do nothing.
+        """
+        from models.amenity import Amenity
+
+        if type(obj) is not Amenity:
+            return
+        self.amenity_ids.append(obj.id)

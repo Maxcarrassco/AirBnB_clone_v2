@@ -38,8 +38,7 @@ class DBStorage:
         Query on the current database session (self.__session).
         All objects depending of the class name (argument cls).
         """
-        # models = [User, State, City, Amenity, Place, Review]
-        models = [State, City, User, Place, Review]
+        models = [State, City, User, Place, Review, Amenity]
         obj_dict = {}
         if not cls:
             for cls in models:
