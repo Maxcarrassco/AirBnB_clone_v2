@@ -16,4 +16,4 @@ def do_pack():
     result = local(f"tar -cvzf {path} web_static")
 
     if result.succeeded:
-        return path
+        return result
