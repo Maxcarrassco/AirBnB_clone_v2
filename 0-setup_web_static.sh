@@ -13,13 +13,13 @@
 # Update the Nginx configuration to serve the content of /data/web_static/current/ to hbnb_static (ex: https://mydomainname.tech/hbnb_static). Don’t forget to restart Nginx after updating the configuration:
 # Use alias inside your Nginx configuration
 
-# apt update -y
-# apt install nginx -y
+apt update -y
+apt install nginx -y
 mkdir -p /data/web_static/releases/test
 mkdir -p /data/web_static/shared
 echo -e "<html>\n  <head>\n  </head>\n  <body>\n    Holberton School\n  </body>\n</html>" > /data/web_static/releases/test/index.html
 ln -sf /data/web_static/releases/test/ /data/web_static/current
 chown $USER:$USER -R /data
 line="\\\tlocation /hbnb_static {\n\t\talias /data/web_static/current;\n\t}"
-sed -i "33i $line" /etc/nginx/nginx.conf
+sed -i "54i $line" /etc/nginx/sites-enabled/default
 service nginx restart
