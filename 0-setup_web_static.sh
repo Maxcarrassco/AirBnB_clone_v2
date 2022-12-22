@@ -19,7 +19,7 @@ mkdir -p /data/web_static/releases/test
 mkdir -p /data/web_static/shared
 echo -e "<html>\n  <head>\n  </head>\n  <body>\n    Holberton School\n  </body>\n</html>" > /data/web_static/releases/test/index.html
 ln -sf /data/web_static/releases/test/ /data/web_static/current
-chown $USER:$USER -R /data
+chown ubuntu:ubuntu -R /data
 line="\\\tlocation /hbnb_static {\n\t\talias /data/web_static/current;\n\t}"
 sed -i "54i $line" /etc/nginx/sites-enabled/default
 service nginx restart
