@@ -44,6 +44,11 @@ class BaseModel:
         cls = type(self).__name__
         return '[{}] ({}) {}'.format(cls, self.id, self.__dict__)
 
+    def __repr__(self) -> str:
+        cls = type(self).__name__
+        return '[{}] ({}) {}'.format(cls, self.id, self.__dict__)
+        
+
     def save(self):
         """Updates updated_at with current time when instance is changed"""
         from models import storage

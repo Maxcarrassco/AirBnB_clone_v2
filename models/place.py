@@ -7,15 +7,6 @@ from sqlalchemy.orm import relationship
 from models.review import Review
 
 
-place_amenity_table = Table(
-        "place_amenity",
-        Base.metadata,
-        Column("place_id", String(60), ForeignKey(
-            'places.id'), primary_key=True),
-        Column("amenity_id", String(60), ForeignKey(
-            'amenities.id'), primary_key=True))
-
-
 class Place(BaseModel, Base):
     """ A place to stay """
 
@@ -35,7 +26,7 @@ class Place(BaseModel, Base):
     amenities = relationship(
             "Amenity",
             secondary="place_amenity",
-            viewonly=True)
+            backref='places')
 
     @property
     def reviews(self):
@@ -76,3 +67,11 @@ class Place(BaseModel, Base):
         if type(obj) is not Amenity:
             return
         self.amenity_ids.append(obj.id)
+
+
+class PlaceAmenity:
+        __tablename__ = "place_amenity"
+        Column("place_id", String(60), ForeignKey(
+            'places.id'), primary_key=True),
+        Column("amenity_id", String(60), ForeignKey(
+            'amenities.id'), primary_key=True)
