@@ -12,7 +12,7 @@ def do_pack():
         return;
     time = datetime.now()
     time = datetime.strftime(time, "%Y%m%d%H%M%S")
-    path = f"versions/name_{time}.tgz"
+    path = f"versions/web_static_{time}.tgz"
     result = local(f"tar -cvzf {path} web_static")
 
     if result.succeeded:
