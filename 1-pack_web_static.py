@@ -13,7 +13,6 @@ def do_pack():
     time = datetime.strftime(time, "%Y%m%d%H%M%S")
     path = f"versions/web_static_{time}.tgz"
     local(f"tar -cvzf {path} web_static")
-
-    if os.path.isdir(path):
+    if os.path.exists(path):
         return path
     return None
