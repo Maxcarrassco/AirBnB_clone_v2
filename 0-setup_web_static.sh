@@ -21,5 +21,5 @@ echo -e "<html>\n  <head>\n  </head>\n  <body>\n    Holberton School\n  </body>\
 ln -sf /data/web_static/releases/test/ /data/web_static/current
 chown $USER:$USER -R /data
 line="\\\tlocation /hbnb_static {\n\t\talias /data/web_static/current;\n\t}"
-sed -i "12i $line" /etc/nginx/nginx.conf
+sed -i "33i $line" /etc/nginx/nginx.conf
 service nginx restart
