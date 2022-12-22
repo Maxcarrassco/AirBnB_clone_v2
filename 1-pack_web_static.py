@@ -2,18 +2,18 @@
 """ALX SE First Fabric Module."""
 from datetime import datetime
 from fabric.api import local
-
+import os
 
 def do_pack():
     """Generate a .tgz archive from the contents of the web_static."""
     """Folder of your AirBnB Clone."""
-    result = local("mkdir -p versions")
-    if result.failed:
-        return;
+    if not os.path.isdir('versions'):
+        local("mkdir versions")
     time = datetime.now()
     time = datetime.strftime(time, "%Y%m%d%H%M%S")
     path = f"versions/web_static_{time}.tgz"
-    result = local(f"tar -cvzf {path} web_static")
+    local(f"tar -cvzf {path} web_static")
 
-    if result.succeeded:
-        return result
+    if os.path.isdir(path):
+        return path
+    return None
