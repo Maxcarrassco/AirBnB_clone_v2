@@ -1,0 +1,19 @@
+; <<>> DiG diggui.com <<>> @8.8.8.8 maxwelldorliea.tech A
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 807
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 512
+;; QUESTION SECTION:
+;maxwelldorliea.tech.		IN	A
+
+;; ANSWER SECTION:
+maxwelldorliea.tech.	21600	IN	A	100.25.102.227
+
+;; Query time: 98 msec
+;; SERVER: 8.8.8.8#53(8.8.8.8)
+;; WHEN: Thu Dec 22 20:06:00 UTC 2022
+;; MSG SIZE  rcvd: 64

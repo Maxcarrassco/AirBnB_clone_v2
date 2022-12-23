@@ -2,7 +2,7 @@
 """ALX SE First Fabric Module."""
 from datetime import datetime
 from fabric.api import local
-import os
+import os.path
 
 def do_pack():
     """Generate a .tgz archive from the contents of the web_static."""
