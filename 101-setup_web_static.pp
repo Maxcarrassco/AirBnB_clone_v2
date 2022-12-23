@@ -1,4 +1,4 @@
-#sets up your web servers for the deployment of web_static
+# Sets up your web servers for the deployment of web_static
 
 $dirs=['/data/web_static/shared/', '/data/web_static/releases/test/']
 
