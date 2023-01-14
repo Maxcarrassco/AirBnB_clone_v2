@@ -42,12 +42,17 @@ class BaseModel:
     def __str__(self):
         """Returns a string representation of the instance"""
         cls = type(self).__name__
-        return '[{}] ({}) {}'.format(cls, self.id, self.__dict__)
+        obj_members = self.__dict__.copy()
+        if '_sa_instance_state' in obj_members:
+            del obj_members['_sa_instance_state']
+        return '[{}] ({}) {}'.format(cls, self.id, obj_members)
 
     def __repr__(self) -> str:
         cls = type(self).__name__
-        return '[{}] ({}) {}'.format(cls, self.id, self.__dict__)
-        
+        obj_members = self.__dict__.copy()
+        if '_sa_instance_state' in obj_members:
+            del obj_members['_sa_instance_state']
+        return '[{}] ({}) {}'.format(cls, self.id, obj_members)
 
     def save(self):
         """Updates updated_at with current time when instance is changed"""
