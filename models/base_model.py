@@ -5,7 +5,15 @@ from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, TIMESTAMP
 
-Base = declarative_base()
+
+class Base:
+    """Set charset of all tables."""
+    __table_args__ = {
+        "mysql_default_charset": "latin1"
+    }
+
+
+Base = declarative_base(cls=Base)
 
 
 class BaseModel:

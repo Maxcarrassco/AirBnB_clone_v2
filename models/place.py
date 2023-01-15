@@ -6,11 +6,11 @@ from sqlalchemy import Column, String, ForeignKey, Integer, Float
 from sqlalchemy.orm import relationship
 from models.review import Review
 
-
 place_amenity = Table("place_amenity", Base.metadata, Column(
     "place_id", ForeignKey('places.id')), Column(
-        "amenity_id", ForeignKey('amenities.id'))
-)
+        "amenity_id", ForeignKey(
+            'amenities.id')), mysql_default_charset="latin1"
+    )
 
 
 class Place(BaseModel, Base):
