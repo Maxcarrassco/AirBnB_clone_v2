@@ -201,10 +201,11 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
             return
 
-        key = c_name + "." + c_id
-
+        obj_key = c_name + "." + c_id
+        objs = storage.all(HBNBCommand.classes[c_name])
         try:
-            del (storage.all()[key])
+            obj = objs[obj_key]
+            storage.delete(obj)
             storage.save()
         except KeyError:
             print("** no instance found **")

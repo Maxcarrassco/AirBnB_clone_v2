@@ -64,10 +64,18 @@ class DBStorage:
 
     def delete(self, obj=None):
         """Delete an object from the database."""
+        models = {
+                'State': State,
+                'City': City,
+                'User': User,
+                'Place': Place,
+                'Review': Review,
+                'Amenity': Amenity}
         self.__session = Session(self.__engine)
         if not obj:
             return
-        obj = self.__session.query(obj).filter(obj.id == id).first()
+        model = models.get(type(obj).__name__)
+        obj = self.__session.query(model).filter(obj.id == model.id).first()
         if obj:
             self.__session.delete(obj)
 
@@ -79,5 +87,4 @@ class DBStorage:
 
     def close(self):
         """Close Existing Session."""
-        self.reload()
-        self.__session.close()
+        self.__session.remove()
