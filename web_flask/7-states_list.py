@@ -22,14 +22,5 @@ def close_session(exception):
     storage.close()
 
 
-@app.context_processor
-def utility_processor():
-    """Make sorted_cities function available in jinj2."""
-    def sorted_cities(cities):
-        """Sort cities Alphabetically."""
-        return sorted(cities, key=lambda x: x.name)
-    return dict(sorted_cities=sorted_cities)
-
-
 if __name__ == '__main__':
     app.run(host='0.0.0.0')

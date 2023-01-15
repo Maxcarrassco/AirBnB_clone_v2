@@ -9,6 +9,11 @@
     {% for state in states.values() %}
     <li>
 	    {{ state['id'] }} : <b>{{ state['name'] }}</b>
+      <ul>
+	 {% for city in sorted_cities(state.cities) %}
+	 <li> {{ city['id'] }} : <b>{{ city['name'] }}</b></li>
+	 {% endfor %}
+      </ul>
     </li>
     {% endfor %}
   </ul>
