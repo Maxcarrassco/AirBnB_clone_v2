@@ -18,8 +18,7 @@ def close_session(exception=None):
 def list_state():
     """Render list of all states."""
     states_list = storage.all(State)
-    return render_template('7-states_list.html', states=dict(sorted(
-        states_list.items(), key=lambda x: x[1].name)))
+    return render_template('7-states_list.html', states=states_list)
 
 
 if __name__ == '__main__':
