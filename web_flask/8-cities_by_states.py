@@ -12,23 +12,13 @@ app = Flask(__name__)
 def list_state():
     """Render list of all states and cities link to them."""
     states_list = storage.all(State)
-    return render_template('8-cities_by_states.html', states=dict(sorted(
-        states_list.items(), key=lambda x: x[1].name)))
+    return render_template('8-cities_by_states.html', states=states_list)
 
 
 @app.teardown_appcontext
 def close_session(exception=None):
     """Close the current session."""
     storage.close()
-
-
-@app.context_processor
-def utility_processor():
-    """Make sorted_cities function available in jinj2."""
-    def sorted_cities(cities):
-        """Sort cities Alphabetically."""
-        return sorted(cities, key=lambda x: x.name)
-    return dict(sorted_cities=sorted_cities)
 
 
 if __name__ == '__main__':
